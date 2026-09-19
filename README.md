@@ -1,6 +1,6 @@
-# Legal-AI-Framework
+# AI-Framework
 
-Internal AI platform for legal-office workflows — one shared app, six departments, hard isolation between all of them.
+Internal AI platform for office workflows — one shared app, six departments, hard isolation between all of them.
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-000000?style=flat-square&logo=docker&logoColor=white)
@@ -63,7 +63,7 @@ All-AWS by design — no third-party CI/CD or external identity provider in the 
 ## Repository structure
 
 ```
-legal-ai-framework/
+ai-framework/
 ├── frontend/          Next.js app — dashboard + API routes
 ├── docker/            Dockerfile
 ├── infra/
@@ -96,7 +96,7 @@ npm install
 npm run dev
 
 # build the container
-docker build -f docker/Dockerfile -t legal-ai-framework .
+docker build -f docker/Dockerfile -t ai-framework .
 ```
 
 AWS-side setup (IAM roles, RDS, S3, Bedrock access, CodePipeline) is tracked in [`infra/`](infra/) as it's built out.
