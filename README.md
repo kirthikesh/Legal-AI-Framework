@@ -13,7 +13,7 @@ Internal AI platform for office workflows — one shared app, six departments, h
 
 ## What this project is
 
-A law office wants its staff to use AI day to day — drafting, research, reviewing documents — without exposing one department's work to another, and without every department improvising its own AI tool with no oversight or auditability.
+A Company wants its staff to use AI day to day — drafting, research, reviewing documents — without exposing one department's work to another, and without every department improvising its own AI tool with no oversight or auditability.
 
 This project is that platform: one internal web application, shared across six departments (Development, Testing, Finance, HR, Legal Ops, Admin), where every employee signs in, gets AI-assisted tools scoped to their own department's data, and is architecturally incapable of reaching another department's information — not by policy, but by how the system is built.
 
