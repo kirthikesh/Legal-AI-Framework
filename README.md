@@ -28,7 +28,8 @@ The end goal is a working pilot the office can actually run on — not a proof o
 
 ## Architecture
 
-![AWS architecture diagram for Legal AI Framework](docs/architecture/aws-architecture-diagram.png)
+<img width="1993" height="1022" alt="image" src="https://github.com/user-attachments/assets/341f69ed-9e13-4901-ac45-90d0f0c7cd58" />
+
 
 Request flow, numbered:
 
