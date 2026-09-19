@@ -1,6 +1,6 @@
 # Legal-AI-Framework
 
-nternal AI platform for legal-office workflows — one shared app, six departments, hard isolation between all of them.
+Internal AI platform for legal-office workflows — one shared app, six departments, hard isolation between all of them.
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-000000?style=flat-square&logo=docker&logoColor=white)
