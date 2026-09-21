@@ -76,6 +76,7 @@ As it grows: document uploads get processed into a department's Bedrock Knowledg
 
 ## Repository structure
 
+```
 legal-ai-framework/
 ├── frontend/                      Next.js app — dashboard + backend
 │   ├── app/
@@ -95,6 +96,7 @@ legal-ai-framework/
 │   └── architecture/
 │       └── aws-architecture-diagram.png    Full infrastructure diagram
 └── README.md
+```
 
 
 ## Department isolation
