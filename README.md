@@ -60,11 +60,32 @@ A second diagram — focused specifically on how department isolation is enforce
 
 All-AWS by design — no third-party CI/CD or external identity provider in the deploy path.
 
+## Backend
+
+There's no separate backend framework — Next.js Route Handlers *are* the backend, running server-side inside the same container deployed to ECS Fargate. Nothing AWS-related ever runs in the browser.
+
+- **API routes** — `/api/chat`, `/api/documents`, `/api/departments/:id`, etc. — all server-side.
+- **Auth verification** — validates the Cognito session/JWT on every request before anything else runs.
+- **RBAC middleware** — resolves which department the caller belongs to and rejects anything outside that scope, before a query reaches the database.
+- **Database access layer** — an ORM (Prisma or Drizzle) over Aurora PostgreSQL, every query scoped by department.
+- **AWS SDK integrations** — Bedrock (invoke model, Guardrails, Knowledge Base retrieval), S3 (per-department document upload/download), Cognito (token verification).
+- **Input validation** — request bodies validated (e.g. with Zod) before they hit business logic.
+- **Error handling & logging** — consistent error responses, with logs and errors flowing to CloudWatch.
+
+As it grows: document uploads get processed into a department's Bedrock Knowledge Base (can run inline in the API route at first, move to a queue/Lambda if it gets slow), and per-department rate limiting keeps one team from exhausting the shared Bedrock quota for everyone else.
+
 ## Repository structure
 
-```
-ai-framework/
-├── frontend/          Next.js app — dashboard + API routes
+legal-ai-framework/
+├── frontend/                      Next.js app — dashboard + backend
+│   ├── app/
+│   │   └── api/                    Route Handlers (the backend)
+│   ├── lib/
+│   │   ├── auth.ts                  Cognito session/JWT verification
+│   │   ├── rbac.ts                  Department-scoping middleware
+│   │   ├── db.ts                    ORM client (RDS / Aurora Postgres)
+│   │   └── aws.ts                   Bedrock, S3, Cognito SDK clients
+│   └── middleware.ts               Runs auth + RBAC before every request
 ├── docker/            Dockerfile
 ├── infra/
 │   ├── pipeline/       AWS CodeBuild buildspec
@@ -74,7 +95,7 @@ ai-framework/
 │   └── architecture/
 │       └── aws-architecture-diagram.png    Full infrastructure diagram
 └── README.md
-```
+
 
 ## Department isolation
 
