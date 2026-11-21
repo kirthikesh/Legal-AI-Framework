@@ -1,0 +1,29 @@
+# AWS CodeBuild spec, run by AWS CodePipeline (AWS-only CI/CD, as decided in week 2).
+# Needs env vars: AWS_ACCOUNT_ID, ECR_REPO (e.g. legal-ai-framework/frontend). Privileged mode ON for Docker.
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+  pre_build:
+    commands:
+      - cd frontend
+      - npm ci
+      - npm test
+      - npx tsc --noEmit
+      - export REGISTRY=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - export IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-7)
+      - aws ecr get-login-password | docker login --username AWS --password-stdin $REGISTRY
+  build:
+    commands:
+      - docker build -t $REGISTRY/$ECR_REPO:$IMAGE_TAG .
+  post_build:
+    commands:
+      - docker push $REGISTRY/$ECR_REPO:$IMAGE_TAG
+      # imagedefinitions.json tells the CodePipeline ECS deploy action which image to run
+      - printf '[{"name":"frontend","imageUri":"%s"}]' "$REGISTRY/$ECR_REPO:$IMAGE_TAG" > ../imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
